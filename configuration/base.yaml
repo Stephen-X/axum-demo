@@ -1,0 +1,3 @@
+application:
+  max_concurrent_requests: 10240
+  request_timeout_s: 20
