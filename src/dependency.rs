@@ -1,5 +1,6 @@
 use std::sync::{Arc, RwLock};
 use tracing::debug;
+use crate::configuration::Settings;
 use crate::repo::db::{InMemoryDatabase, KVDatabase};
 
 /// Application state that holds all the app dependency singletons.
@@ -12,19 +13,16 @@ pub struct ApplicationState {
     //   - Allows you to get a pointer to the shared underlying resource with e.g. `get_ref()` or `get_mut()`.
     // Library documentation typically states this clearly.
     pub db: Arc<RwLock<dyn KVDatabase<String, String>>>,
-}
-
-impl Default for ApplicationState {
-    fn default() -> Self {
-        debug!("Creating new AppState...");
-        Self {
-            db: Arc::new(RwLock::new(InMemoryDatabase::new())),
-        }
-    }
+    /// Global configurations.
+    pub config: Arc<Settings>,
 }
 
 impl ApplicationState {
-    pub fn build() -> Arc<Self> {
-        Arc::new(Self::default())
+    pub fn new(config: Arc<Settings>) -> Self {
+        debug!("Creating new AppState...");
+        Self {
+            db: Arc::new(RwLock::new(InMemoryDatabase::new())),
+            config,
+        }
     }
 }

@@ -15,7 +15,7 @@ async fn main() -> anyhow::Result<()> {
     init_tracing(config.clone());
 
     // Using the State extractor: https://docs.rs/axum/latest/axum/#using-the-state-extractor
-    let global_state = ApplicationState::default();
+    let global_state = ApplicationState::new(config.clone());
     let address = format!("{}:{}", config.application.host, config.application.port);
 
     // Build application with routes
