@@ -27,7 +27,7 @@ anyhow = "1.0"
 thiserror = "2.0"
 # Structured logging
 tracing = { version = "0.1", features = ["log"] }
-tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tracing-subscriber = { version = "0.3", features = ["env-filter","tracing-log","json"] }
 # Libraries
 uuid = { version = "1.0", features = ["v4", "v7"] }
 config = "0.15"

@@ -28,6 +28,7 @@ impl Middleware for Router<ApplicationState> {
                 .load_shed()
                 .concurrency_limit(config.application.max_concurrent_requests)
                 .timeout(Duration::from_secs(config.application.request_timeout_s))
+                // TODO: How do I add a trace layer for non-HTTP logs?
                 // tower-http middleware for logging
                 // Ref: https://docs.rs/tower-http/latest/tower_http/trace/index.html
                 .layer(
@@ -60,6 +61,7 @@ fn build_trace_span(request: &Request<Body>, config: Arc<Settings>) -> Span {
         })
         .unwrap_or(Uuid::new_v4().to_string());
 
+    // Note: Doc for the `%` and `?` sigils: https://docs.rs/tracing/latest/tracing/#recording-fields
     if config.environment == Environment::Local.as_str() {
         tracing::span!(
             Level::TRACE,
