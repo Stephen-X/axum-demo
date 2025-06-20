@@ -55,10 +55,7 @@ fn build_trace_span(request: &Request<Body>, config: Arc<Settings>) -> Span {
     let trace_id = request
         .headers()
         .get("X-Trace-ID")
-        .and_then(|value| match value.to_str().ok() {
-            Some(val) => Some(val.to_string()),
-            _ => None,
-        })
+        .and_then(|value| value.to_str().ok().map(|val| val.to_string()))
         .unwrap_or(Uuid::new_v4().to_string());
 
     // Note: Doc for the `%` and `?` sigils: https://docs.rs/tracing/latest/tracing/#recording-fields
